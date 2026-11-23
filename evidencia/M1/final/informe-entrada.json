@@ -1,0 +1,178 @@
+{
+  "esquema_prototipo": 1,
+  "generado_utc": "2026-11-23T15:44:28.928229+00:00",
+  "alcance": "inspeccion_de_entrada_no_certificacion_de_produccion",
+  "archivos": [
+    {
+      "archivo": "foto-hopper.jpg",
+      "estado": "ok",
+      "aptitud_produccion": "no_evaluada",
+      "rasterizacion": {
+        "estado": "no_aplica",
+        "paginas": []
+      },
+      "tamano_bytes": 6412,
+      "sha256": "ffe89a0ab0e94114e10777e7313d7fa83d634e34ebc2ea7479085cffa504c920",
+      "original": {
+        "formato_detectado": "JPEG",
+        "tipo_contenido": "raster",
+        "ancho_px": 128,
+        "alto_px": 128,
+        "modo_color": "RGB",
+        "canales": [
+          "R",
+          "G",
+          "B"
+        ],
+        "resolucion_metadatos_ppp": [
+          96.0,
+          96.0
+        ],
+        "tamano_derivado_de_metadatos_mm": [
+          33.8667,
+          33.8667
+        ],
+        "orientacion_exif": null,
+        "transparencia": false,
+        "icc_presente": false,
+        "icc_sha256": null,
+        "fotografia_o_logo": "no_inferido"
+      },
+      "avisos": [
+        "El tamaño físico derivado depende de metadatos; falta confirmar tamaño de impresión.",
+        "No se remuestrea raster: elegir ppp no agrega detalle al original."
+      ]
+    },
+    {
+      "archivo": "foto-derivada.png",
+      "estado": "ok",
+      "aptitud_produccion": "no_evaluada",
+      "rasterizacion": {
+        "estado": "no_aplica",
+        "paginas": []
+      },
+      "tamano_bytes": 30325,
+      "sha256": "b34ae1911be9469bb68503fe2c9d08d05cc3810a08aadfdf96b4b2cc912a2a08",
+      "original": {
+        "formato_detectado": "PNG",
+        "tipo_contenido": "raster",
+        "ancho_px": 128,
+        "alto_px": 128,
+        "modo_color": "RGB",
+        "canales": [
+          "R",
+          "G",
+          "B"
+        ],
+        "resolucion_metadatos_ppp": null,
+        "tamano_derivado_de_metadatos_mm": null,
+        "orientacion_exif": null,
+        "transparencia": false,
+        "icc_presente": false,
+        "icc_sha256": null,
+        "fotografia_o_logo": "no_inferido"
+      },
+      "avisos": [
+        "El tamaño físico derivado depende de metadatos; falta confirmar tamaño de impresión.",
+        "Sin resolución física verificable: no se supone 72, 96 ni 300 ppp.",
+        "No se remuestrea raster: elegir ppp no agrega detalle al original."
+      ]
+    },
+    {
+      "archivo": "logo-svg.svg",
+      "estado": "ok",
+      "aptitud_produccion": "no_evaluada",
+      "rasterizacion": {
+        "estado": "generada",
+        "paginas": [
+          {
+            "pagina": 1,
+            "archivo": "37c922cb31b7-p1-150ppp.png",
+            "ppp_elegidos": 150,
+            "ancho_px": 296,
+            "alto_px": 296,
+            "modo_color": "RGB",
+            "fondo": "blanco",
+            "origen_resolucion": "parametro_de_rasterizacion_no_dato_original"
+          }
+        ],
+        "tamano_salida_mm_elegido": [
+          50.0,
+          50.0
+        ]
+      },
+      "tamano_bytes": 4273,
+      "sha256": "37c922cb31b752829df0296290a4d127fc9aa8a181a749e8f3234c87f7b744ab",
+      "original": {
+        "formato_detectado": "SVG",
+        "ancho_declarado": "100%",
+        "alto_declarado": "100%",
+        "viewBox": "0 0 300 300",
+        "viewport_css_px": null,
+        "viewport_derivado_mm": null,
+        "resolucion_original_ppp": null,
+        "tipos_detectados": [
+          "vector"
+        ],
+        "tipo_contenido": "vector",
+        "modo_color": "declaraciones SVG/CSS; perfil de salida no verificado"
+      },
+      "avisos": [
+        "96 px por pulgada es la equivalencia CSS usada, no resolución del original.",
+        "La detección de contenido es orientativa; no verifica fuentes, tintas planas ni sobreimpresión.",
+        "Tamaño de salida elegido por operador; no es tamaño del original. Puede cambiar relación de aspecto."
+      ]
+    },
+    {
+      "archivo": "documento-w3c.pdf",
+      "estado": "ok",
+      "aptitud_produccion": "no_evaluada",
+      "rasterizacion": {
+        "estado": "generada",
+        "paginas": [
+          {
+            "pagina": 1,
+            "archivo": "3df79d34abbc-p1-150ppp.png",
+            "ppp_elegidos": 150,
+            "ancho_px": 1240,
+            "alto_px": 1755,
+            "modo_color": "RGB",
+            "fondo": "blanco",
+            "origen_resolucion": "parametro_de_rasterizacion_no_dato_original"
+          }
+        ]
+      },
+      "tamano_bytes": 13264,
+      "sha256": "3df79d34abbca99308e79cb94461c1893582604d68329a41fd4bec1885e6adb4",
+      "original": {
+        "formato_detectado": "PDF",
+        "numero_paginas": 1,
+        "resolucion_original_ppp": null,
+        "modo_color": "no_unico; solo se describen espacios de imágenes detectadas",
+        "paginas": [
+          {
+            "pagina": 1,
+            "caja_visible_pt": [
+              595.0,
+              842.0
+            ],
+            "caja_visible_mm": [
+              209.9028,
+              297.0389
+            ],
+            "rotacion_grados": 0,
+            "tipos_detectados": [
+              "texto"
+            ],
+            "tipo_contenido": "texto",
+            "imagenes_embebidas": []
+          }
+        ]
+      },
+      "avisos": [
+        "PDF no tiene un único DPI ni modo de color. Imágenes y vectores se distinguen.",
+        "Las cajas son las visibles, con rotación aplicada; no verifican sangrado, tintas planas ni sobreimpresión."
+      ]
+    }
+  ]
+}

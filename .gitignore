@@ -14,3 +14,7 @@ htmlcov/
 *.jpg
 *.pdf
 !tests/fixtures/**
+
+!evidencia/**
+resultados/
+cobertura.xml

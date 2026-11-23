@@ -1,0 +1,30 @@
+[
+  {
+    "archivo": "foto-hopper.jpg",
+    "url_origen": "https://raw.githubusercontent.com/python-pillow/Pillow/main/Tests/images/hopper.jpg",
+    "nota": "Foto real de prueba del proyecto Pillow; no es un trabajo de un cliente.",
+    "sha256": "ffe89a0ab0e94114e10777e7313d7fa83d634e34ebc2ea7479085cffa504c920",
+    "tamano_bytes": 6412
+  },
+  {
+    "archivo": "logo-svg.svg",
+    "url_origen": "https://www.w3.org/Icons/SVG/svg-logo-v.svg",
+    "nota": "Logo público SVG de W3C; no es una marca de cliente.",
+    "sha256": "37c922cb31b752829df0296290a4d127fc9aa8a181a749e8f3234c87f7b744ab",
+    "tamano_bytes": 4273
+  },
+  {
+    "archivo": "documento-w3c.pdf",
+    "url_origen": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    "nota": "PDF de ejemplo W3C; no es una plancha de producción.",
+    "sha256": "3df79d34abbca99308e79cb94461c1893582604d68329a41fd4bec1885e6adb4",
+    "tamano_bytes": 13264
+  },
+  {
+    "archivo": "foto-derivada.png",
+    "derivado_de": "foto-hopper.jpg",
+    "transformacion": "Recodificación PNG con Pillow; sin remuestreo ni DPI añadido. No es un original independiente.",
+    "sha256": "b34ae1911be9469bb68503fe2c9d08d05cc3810a08aadfdf96b4b2cc912a2a08",
+    "tamano_bytes": 30325
+  }
+]
