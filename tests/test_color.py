@@ -237,24 +237,24 @@ def test_formula_normalizada_primarios_y_negro(rgb, esperado):
     from flexo_img.color import separar_cuatricromia
 
     canales = separar_cuatricromia(Image.new("RGB", (1, 1), rgb))
-    assert tuple(canales[c].getpixel((0, 0)) for c in CANALES) == esperado
-    assert all(im.mode == "L" for im in canales.values())
+    assert tuple(c.getpixel((0, 0)) for c in canales) == esperado
+    assert all(im.mode == "L" for im in canales)
 
 
 def test_formula_intermedia_y_modo_invalido(monkeypatch):
-    from flexo_img.color import separar_cuatricromia
+    from flexo_img.color import separar_por_nombre
 
     imagen = Image.new("RGB", (1, 1), (128, 64, 32))
-    canales = separar_cuatricromia(imagen)
+    canales = separar_por_nombre(imagen)
     assert canales["C"].getpixel((0, 0)) == 0
     assert canales["M"].getpixel((0, 0)) == 127
     assert canales["Y"].getpixel((0, 0)) == 191
     assert canales["K"].getpixel((0, 0)) == 127
     with pytest.raises(ValueError, match="requiere RGB"):
-        separar_cuatricromia(imagen.convert("L"))
+        separar_por_nombre(imagen.convert("L"))
     monkeypatch.setattr("flexo_img.color.MAX_PIXELES_M2", 0)
     with pytest.raises(ValueError, match="límite"):
-        separar_cuatricromia(imagen)
+        separar_por_nombre(imagen)
 
 
 def test_exportacion_cobertura_y_vista_invertida(tmp_path, muestra):
@@ -272,3 +272,19 @@ def test_exportacion_cobertura_y_vista_invertida(tmp_path, muestra):
                     crudo.get_flattened_data(), vista.get_flattened_data(), strict=True
                 )
             )
+
+
+def test_png_rgb_con_color_transparente(tmp_path):
+    entrada = tmp_path / "logo.png"
+    imagen = Image.new("RGB", (2, 1), "red")
+    imagen.putpixel((1, 0), (0, 0, 0))
+    imagen.save(entrada, transparency=(255, 0, 0))
+    salida = tmp_path / "color"
+    with pytest.raises(ValueError, match="fondo-blanco"):
+        convertir(entrada, salida, CMYK, RGB, True)
+    assert not salida.exists()
+    ficha = convertir(entrada, salida, CMYK, RGB, True, fondo_blanco=True)
+    assert ficha["transparencia_aplanada_sobre_blanco"]
+    with Image.open(salida / "conversion_cmyk_DEMO.tif") as cmyk:
+        assert cmyk.getpixel((0, 0)) == (0, 0, 0, 0)
+        assert sum(cmyk.getpixel((1, 0))) > 0

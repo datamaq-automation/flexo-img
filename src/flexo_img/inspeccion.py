@@ -8,7 +8,7 @@ import json
 import math
 import re
 import warnings
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from xml.etree.ElementTree import register_namespace
@@ -361,7 +361,7 @@ def main() -> int:
     args.salida.mkdir(parents=True, exist_ok=True)
     informe = {
         "esquema_prototipo": 1,
-        "generado_utc": datetime.now(UTC).isoformat(),
+        "generado_utc": datetime.now(timezone.utc).isoformat(),
         "alcance": "inspeccion_de_entrada_no_certificacion_de_produccion",
         "archivos": [
             inspeccionar(p, args.salida, args.dpi, args.svg_mm) for p in args.archivos

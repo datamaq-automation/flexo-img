@@ -1,6 +1,22 @@
 # Validación de diciembre — ejecución observada
 
-## Ampliación de pruebas de diciembre — medición actual
+## Correcciones de la revisión del 23 de noviembre
+
+- **Logo transparente.** Un PNG RGB puede esconder un color por transparencia. M2 lo procesa como RGBA antes de aplicar la regla de fondo. La prueba usa dos píxeles. Exige elegir fondo blanco, comprueba cero tinta sobre el rojo transparente y tinta sobre el negro visible.
+- **Dos originales al mismo tamaño físico.** En `tests/test_inspector.py`, dos JPEG cuadrados miden 25,4 mm de lado. El primero tiene 72 píxeles por lado y 72 PPP declarados. El segundo tiene 300 píxeles y 300 PPP. La prueba lee ambas fichas y verifica las medidas.
+- **Funciones para usar desde Python.** `flexo_img.inspector.inspeccionar_archivo(ruta)` lee la ficha sin escribir archivos. `flexo_img.color.separar_cuatricromia(imagen)` entrega cuatro planos en una tupla C, M, Y, K. Los programas que antes accedían al resultado con claves pueden usar `separar_por_nombre`.
+- **Compatibilidad verificada.** En Linux x86_64, dos entornos aislados ejecutaron la misma suite con Python 3.10.22 (Pillow 12.3.0) y 3.12.14 (Pillow 13.0.0). En ambos pasaron **107 pruebas, con 349 de 349 sentencias ejecutadas**. Ruff y formato pasaron. En 3.12 se repitió la demo del README con la foto y el logo. Windows nativo queda sin verificar.
+- **Rendimiento.** Corré `python scripts/medir_diciembre.py` desde la raíz con el entorno del proyecto activo. El script genera un PDF de cuatro páginas con imágenes reproducibles, lo inspecciona, rasteriza a 150 PPP y separa las cuatro páginas con los perfiles de la demo. Los tiempos incluyen todas las salidas a disco y excluyen la generación del original y la instalación. En Linux x86_64, AMD EPYC 9V74, Python 3.12.14, la entrada ocupó **9.985.818 bytes** y cada página produjo un raster de 300 × 300 píxeles.
+
+| Ejecución | Inspección y rasterización | Separación e informes | Total |
+|---|---:|---:|---:|
+| 1 | 0,081 s | 2,661 s | 2,741 s |
+| 2 | 0,092 s | 2,570 s | 2,662 s |
+| 3 | 0,091 s | 2,594 s | 2,686 s |
+
+Las tres ejecuciones cumplieron el objetivo de cinco segundos para esta muestra. Archivos del mismo peso pueden tener dimensiones y tiempos diferentes.
+
+## Ampliación anterior de pruebas de diciembre
 
 Sobre la rama del PR #7 se repitió primero la medición original: **78 pruebas aprobadas y 86,39 %** de cobertura, 46 sentencias no ejecutadas. Después se agregaron **27 casos de prueba en 15 funciones** en `tests/test_entradas_y_cli.py`, sin modificar las pruebas anteriores, el código de `src/`, pyproject.toml, el umbral del 85 % ni las exclusiones.
 

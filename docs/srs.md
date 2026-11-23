@@ -39,8 +39,8 @@ PDF: espacios de imágenes embebidas disponibles; no se auditan todos los espaci
 ## Requisitos no funcionales
 - Calidad: Pytest con cobertura medida y mínimo de entrega 85 %, Ruff y formato (decisión de este aporte, no umbral de máquina). Pruebas sin red ni envíos; comandos del README verificados desde copia limpia.
 - Integridad/recursos: entradas sin cambios, hashes y procedencia; 25 MiB por entrada, 20 páginas y 20 millones de píxeles en inspección/render; color hasta 2 millones de píxeles. No prometen procesar originales industriales arbitrarios.
-- Portabilidad: ejecución comprobada en Ubuntu/Python 3.12. El README inicial aspira a 3.10+; esta entrega requiere 3.12 y no declara validados 3.10 ni Windows. Registrar versiones y licencias de dependencias.
-- Rendimiento: registrar tiempos sobre muestras concretas. El ejemplo de 10 MB en menos de 5 s de #2 queda como objetivo de validación futura, no resultado universal ni SLA cumplido.
+- Portabilidad: Python 3.10 o superior. La suite se comprobó en Linux con 3.10.22 y 3.12.14. Windows nativo queda sin verificar.
+- Rendimiento: objetivo de procesar un archivo de hasta 10 MB en menos de 5 segundos. El [ensayo reproducible](informes/validacion-diciembre.md) registra tamaño, equipo, operación y tres tiempos. El resultado depende también de la cantidad de páginas y píxeles.
 - Trazabilidad: commits por avance, informes con pruebas y supuestos, salidas DEMO. Medición numérica de color no equivale a prueba impresa.
 
 ## Casos de uso

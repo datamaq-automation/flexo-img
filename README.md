@@ -17,7 +17,7 @@ Tramado configurable y validación de plancha son objetivos de febrero (#5/#6). 
 
 Código en `src/flexo_img/`, tests en `tests/`, evidencia en `evidencia/` y documentación en `docs/`. `inspeccion.py` caracteriza y rasteriza; `color.py` separa/convierte/exporta. Funciones pequeñas y comprobables, sin servicios ni red durante procesamiento/tests.
 
-Python **3.12** y Git, verificados en Ubuntu. El README inicial aspiraba a Python 3.10+; este avance utiliza 3.12 y no afirma validación en 3.10/Windows. Dependencias runtime exactas en pyproject.toml: Pillow, PyMuPDF y defusedxml; pytest, pytest-cov y Ruff son de desarrollo. La instalación requiere acceso a paquetes; muestras y perfiles ya están en el repositorio. No hace falta instalar OpenCV o NumPy para esta implementación con Pillow.
+Python **3.10 o superior** y Git. Las pruebas se ejecutaron en Linux con Python 3.10 y 3.12. Dependencias runtime exactas en pyproject.toml: Pillow, PyMuPDF y defusedxml; pytest, pytest-cov y Ruff son de desarrollo. La instalación requiere acceso a paquetes; muestras y perfiles ya están en el repositorio. No hace falta instalar OpenCV o NumPy para esta implementación con Pillow.
 
 ## Reproducir desde una copia limpia
 
@@ -39,13 +39,15 @@ git diff --check
 
 Ejecutar una vez por copia: la conversión no sobrescribe directorios existentes. Para repetir, usar otra copia o rutas de salida nuevas; no borrar evidencia entregada. `resultados/`, entorno y cobertura no se commitean. Las fechas/rutas de informes pueden cambiar al repetir; comparar datos y píxeles, no exigir igualdad binaria de todos los JSON.
 
+Para consultar la ficha desde Python, usá `from flexo_img.inspector import inspeccionar_archivo` y llamá a `inspeccionar_archivo(ruta)`. Para reproducir la medición de rendimiento desde la raíz, ejecutá `.venv/bin/python scripts/medir_diciembre.py`.
+
 La fórmula pedagógica de #4 se puede comprobar sin ICC:
 
 ```bash
-.venv/bin/python -c 'from PIL import Image; from flexo_img.color import separar_cuatricromia; c=separar_cuatricromia(Image.new("RGB",(1,1),(255,0,0))); print({k:v.getpixel((0,0)) for k,v in c.items()})'
+.venv/bin/python -c 'from PIL import Image; from flexo_img.color import separar_cuatricromia; c=separar_cuatricromia(Image.new("RGB",(1,1),(255,0,0))); print(tuple(plano.getpixel((0,0)) for plano in c))'
 ```
 
-Salida esperada: C=0, M=255, Y=255, K=0 (cobertura). Esta fórmula no equivale a la conversión ICC de los comandos anteriores.
+Salida esperada: C=0, M=255, Y=255, K=0 (cobertura). La función devuelve una tupla C, M, Y, K. Si tu código usaba el diccionario de la versión anterior, importá `separar_por_nombre` para seguir accediendo por clave. Esta fórmula no equivale a la conversión ICC de los comandos anteriores.
 
 ## Qué mostrar en el coloquio
 

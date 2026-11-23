@@ -33,7 +33,7 @@ FLAGS = ImageCms.Flags.BLACKPOINTCOMPENSATION
 MAX_PIXELES_M2 = 2_000_000
 
 
-def separar_cuatricromia(imagen: Image.Image) -> dict[str, Image.Image]:
+def separar_por_nombre(imagen: Image.Image) -> dict[str, Image.Image]:
     """Fórmula didáctica #4: cobertura cruda 0=sin tinta, 255=máxima.
 
     No es gestión ICC ni garantiza tintas de una máquina. Operaciones Pillow
@@ -56,6 +56,14 @@ def separar_cuatricromia(imagen: Image.Image) -> dict[str, Image.Image]:
         ).convert("L")
     canales["K"] = k
     return canales
+
+
+def separar_cuatricromia(
+    imagen: Image.Image,
+) -> tuple[Image.Image, Image.Image, Image.Image, Image.Image]:
+    """Devuelve los cuatro planos de cobertura en orden C, M, Y, K."""
+    planos = separar_por_nombre(imagen)
+    return planos["C"], planos["M"], planos["Y"], planos["K"]
 
 
 def perfil(datos: bytes, espacio: str) -> tuple[Any, dict[str, Any]]:
@@ -232,6 +240,8 @@ def convertir(
                 dict(info_srgb),
                 "sRGB_asumido_expresamente_no_verificado",
             )
+        if imagen.mode == "RGB" and "transparency" in imagen.info:
+            imagen = imagen.convert("RGBA")
         alpha = imagen.mode == "RGBA" and imagen.getchannel("A").getextrema()[0] < 255
         if alpha and not fondo_blanco:
             raise ValueError("La transparencia requiere --fondo-blanco explícito")
