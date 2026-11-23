@@ -314,7 +314,7 @@ def convertir(
         gris.save(salida / f"canal_{c}_gris_DEMO.png", pnginfo=meta, **kwargs)
     panel_comparacion(original, preview, canales, salida / "comparacion_DEMO.png")
     with (salida / "muestras_color.csv").open("w", newline="") as f:
-        escritor = csv.writer(f)
+        escritor = csv.writer(f, lineterminator="\n")
         escritor.writerow(
             [
                 "x",
