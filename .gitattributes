@@ -1,0 +1,2 @@
+# Conservar bytes y hash del SVG oficial de W3C, incluidos sus espacios.
+evidencia/M1/entradas/logo-svg.svg -whitespace
