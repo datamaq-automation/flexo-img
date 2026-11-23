@@ -12,7 +12,7 @@ Una primera copia aislada sufrió archivos vacíos y un objeto Git inválido ant
 
 ## Qué ejecuté
 
-En Ubuntu, Python 3.12.3, clon limpio del commit de código M2 `588baa0`, entorno virtual nuevo y dependencias instaladas mediante pyproject.toml. Los comandos de procesamiento y controles son los del README. La clonación inicial usó la copia local por estar aún sin publicar; después de publicar se verifica también la rama remota.
+En Ubuntu, Python 3.12.3, clon limpio del commit de código M2 `588baa0`, entorno virtual nuevo y dependencias instaladas mediante pyproject.toml. Los comandos de procesamiento y controles son los del README. La primera clonación usó la copia local por estar aún sin publicar. Después se clonó desde GitHub la rama publicada con código `3fb34ef`, se creó otro entorno nuevo y se ejecutaron todos los comandos del README: salida 0, 78 pruebas aprobadas en 2,80 s y 86,39 % de cobertura. Ruff y formato aprobados, fórmula de rojo correcta y árbol limpio al finalizar. Esta es la ejecución remota de referencia (los comandos se ejecutaron localmente sobre el clon de GitHub, no en CI).
 
 | Control | Resultado observado |
 |---|---|
@@ -37,3 +37,7 @@ Identifico original y salida elegida; muestro el informe de inspección, la foto
 ## Qué queda para febrero
 
 Integrar y contrastar tramado y calidad con #5/#6, usando originales autorizados del taller. Confirmar RIP, perfil ICC, formato/resolución/polaridad, LPI/ángulos, plancha/sustrato, tinta y límites de cobertura/punto/líneas. Faltan dictamen humano de referencia y prueba física. Las salidas actuales son DEMO; no afirmo APTO industrial ni una mejora comercial medida. El Issue #1 continúa abierto.
+
+## Ajuste final de salida
+
+Los CSV se generan con finales LF explícitos. La comparación `git diff --check origin/main...HEAD` pasa para el PR completo; el SVG W3C conserva sus bytes originales mediante una excepción de whitespace limitada a ese archivo. No se ajustaron tests para ocultar errores: las nuevas pruebas detectaron y ayudaron a corregir la adaptación a Pillow y a verificar el espacio RGB real del PDF generado.
