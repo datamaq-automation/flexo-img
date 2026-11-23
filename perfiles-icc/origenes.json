@@ -1,0 +1,38 @@
+[
+  {
+    "archivo": "default_cmyk.icc",
+    "origen_url": "https://raw.githubusercontent.com/ArtifexSoftware/ghostpdl/98f6c50f39531b7a3de9c8082659f8cad524f0d3/iccprofiles/default_cmyk.icc",
+    "revision_fuente": "98f6c50f39531b7a3de9c8082659f8cad524f0d3",
+    "sha256": "8472fa1493a024b800b67dee9424835ec0c41ab79490200ae8ec4a689fd1b9a9",
+    "bytes": 187484,
+    "descarga_utc": "2026-11-20T14:26:40.732021+00:00",
+    "descripcion": "Artifex CMYK SWOP Profile",
+    "copyright": "Copyright Artifex Software 2011",
+    "espacio": "CMYK",
+    "clase": "prtr"
+  },
+  {
+    "archivo": "default_rgb.icc",
+    "origen_url": "https://raw.githubusercontent.com/ArtifexSoftware/ghostpdl/98f6c50f39531b7a3de9c8082659f8cad524f0d3/iccprofiles/default_rgb.icc",
+    "revision_fuente": "98f6c50f39531b7a3de9c8082659f8cad524f0d3",
+    "sha256": "eddaf344b5edea13269e0d20055f335610e5e0b6e33e6e536f2701bc18c5f7d5",
+    "bytes": 2576,
+    "descarga_utc": "2026-11-20T14:26:41.016262+00:00",
+    "descripcion": "Artifex Software sRGB ICC Profile",
+    "copyright": "Copyright Artifex Software 2011",
+    "espacio": "RGB",
+    "clase": "mntr"
+  },
+  {
+    "archivo": "LICENSE-Artifex.txt",
+    "origen_url": "https://raw.githubusercontent.com/ArtifexSoftware/ghostpdl/98f6c50f39531b7a3de9c8082659f8cad524f0d3/LICENSE",
+    "sha256": "8ce064f423b7c24a011b6ebf9431b8bf9861a5255e47c84bfb23fc526d030a8b",
+    "bytes": 1976
+  },
+  {
+    "archivo": "COPYING-AGPL-Artifex.txt",
+    "origen_url": "https://raw.githubusercontent.com/ArtifexSoftware/ghostpdl/98f6c50f39531b7a3de9c8082659f8cad524f0d3/doc/COPYING",
+    "sha256": "57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6",
+    "bytes": 34520
+  }
+]
