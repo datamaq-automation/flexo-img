@@ -1,0 +1,12 @@
+coverage==7.17.5
+defusedxml==0.7.1
+-e git+file:///home/nacho/revisiones/flexo-diciembre-0ynkuxft/entrega@dec5a67e4107b66c496eda14c8ea126bf00f581c#egg=flexo_img
+iniconfig==2.3.1
+packaging==26.3
+pillow==13.0.0
+pluggy==1.7.0
+Pygments==2.21.0
+PyMuPDF==1.26.7
+pytest==9.1.1
+pytest-cov==7.0.0
+ruff==0.16.2
