@@ -13,7 +13,9 @@ class TintasCMYK:
     k: int
 
     def __post_init__(self) -> None:
-        if any(type(valor) is not int or not 0 <= valor <= 255 for valor in self.valores):
+        if any(
+            type(valor) is not int or not 0 <= valor <= 255 for valor in self.valores
+        ):
             raise ValueError("Cada canal CMYK debe ser un entero entre 0 y 255")
 
     @property
