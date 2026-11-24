@@ -1,7 +1,11 @@
 """Rechazos de archivos reales y contratos CLI, sin red ni cambios de cobertura."""
 
 import hashlib
+import json
+import runpy
+import sys
 from pathlib import Path
+from types import ModuleType
 
 import pymupdf
 import pytest
@@ -12,6 +16,14 @@ from flexo_img import inspeccion
 BASE = Path(__file__).resolve().parent.parent
 RGB = BASE / "perfiles-icc/default_rgb.icc"
 CMYK = BASE / "perfiles-icc/default_cmyk.icc"
+
+
+def ejecutar_cli(modulo: ModuleType, argumentos: list[str], monkeypatch):
+    """Ejecuta el punto de entrada real bajo la instrumentación de pytest-cov."""
+    monkeypatch.setattr(sys, "argv", [modulo.__file__, *argumentos])
+    with pytest.raises(SystemExit) as salida:
+        runpy.run_path(modulo.__file__, run_name="__main__")
+    return salida.value.code
 
 
 @pytest.mark.parametrize(
@@ -107,3 +119,114 @@ def test_pdf_cifrado_o_con_demasiadas_paginas_no_se_rasteriza(
     assert "PDF cifrado, inválido o fuera del límite" in resultado["error"]
     assert resultado["rasterizacion"]["paginas"] == []
     assert entrada.read_bytes() == antes
+
+
+@pytest.mark.parametrize(
+    "extra",
+    [
+        ["--dpi", "0"],
+        ["--dpi", "1201"],
+        ["--svg-mm", "25.4", "25.4"],
+        ["--dpi", "72", "--svg-mm", "0", "25.4"],
+    ],
+)
+def test_cli_inspeccion_rechaza_parametros_antes_de_escribir(
+    tmp_path, monkeypatch, capsys, extra
+):
+    entrada = tmp_path / "original.png"
+    Image.new("RGB", (2, 2)).save(entrada)
+    salida = tmp_path / "sin-crear"
+    assert (
+        ejecutar_cli(
+            inspeccion, [str(entrada), "--salida", str(salida), *extra], monkeypatch
+        )
+        == 2
+    )
+    assert "error:" in capsys.readouterr().err
+    assert not salida.exists()
+
+
+def test_cli_inspeccion_rechaza_carpeta_de_entrada(tmp_path, monkeypatch, capsys):
+    entrada = tmp_path / "original.png"
+    Image.new("RGB", (2, 2)).save(entrada)
+    antes = entrada.read_bytes()
+    assert (
+        ejecutar_cli(inspeccion, [str(entrada), "--salida", str(tmp_path)], monkeypatch)
+        == 2
+    )
+    assert "directorio de salida separado" in capsys.readouterr().err
+    assert entrada.read_bytes() == antes
+    assert not (tmp_path / "informe-entrada.json").exists()
+
+
+def test_cli_inspeccion_no_sobrescribe_entrada_por_enlace_simbolico(
+    tmp_path, monkeypatch, capsys
+):
+    entrada = tmp_path / "original.png"
+    Image.new("RGB", (2, 2)).save(entrada)
+    antes = entrada.read_bytes()
+    salida = tmp_path / "salida"
+    salida.mkdir()
+    enlace = salida / "informe-entrada.json"
+    enlace.symlink_to(entrada)
+    assert (
+        ejecutar_cli(inspeccion, [str(entrada), "--salida", str(salida)], monkeypatch)
+        == 2
+    )
+    assert "no puede sobrescribir" in capsys.readouterr().err
+    assert enlace.is_symlink()
+    assert entrada.read_bytes() == antes
+
+
+@pytest.mark.parametrize("ausente", [False, True], ids=["completo", "parcial"])
+def test_cli_inspeccion_genera_informe_y_codigo_coherentes(
+    tmp_path, monkeypatch, capsys, ausente
+):
+    entrada = tmp_path / "original.png"
+    Image.new("RGB", (2, 2)).save(entrada)
+    argumentos = [str(entrada)]
+    if ausente:
+        argumentos.append(str(tmp_path / "ausente.jpg"))
+    salida = tmp_path / "informe"
+    assert ejecutar_cli(
+        inspeccion, [*argumentos, "--salida", str(salida)], monkeypatch
+    ) == int(ausente)
+    informe = json.loads((salida / "informe-entrada.json").read_text())
+    assert [a["estado"] for a in informe["archivos"]] == (
+        ["ok", "error"] if ausente else ["ok"]
+    )
+    assert (
+        informe["archivos"][0]["sha256"]
+        == hashlib.sha256(entrada.read_bytes()).hexdigest()
+    )
+    assert informe["generado_utc"].endswith("+00:00")
+    assert str(salida / "informe-entrada.json") in capsys.readouterr().out
+
+
+def test_lotes_sucesivos_conservan_ambos_informes(tmp_path, monkeypatch):
+    destino = tmp_path / "lotes"
+    for nombre in ("uno", "dos"):
+        ruta = tmp_path / f"{nombre}.png"
+        Image.new("RGB", (3, 3)).save(ruta)
+        assert (
+            ejecutar_cli(inspeccion, [str(ruta), "--salida", str(destino)], monkeypatch)
+            == 0
+        )
+    informes = sorted(destino.rglob("informe-entrada.json"))
+    assert [json.loads(p.read_text())["archivos"][0]["archivo"] for p in informes] == [
+        "uno.png",
+        "dos.png",
+    ]
+
+
+def test_salida_archivo_se_conserva(tmp_path, monkeypatch):
+    destino = tmp_path / "salidas" / "archivo"
+    destino.parent.mkdir()
+    destino.write_bytes(b"original")
+    assert (
+        ejecutar_cli(
+            inspeccion, [str(tmp_path / "x"), "--salida", str(destino)], monkeypatch
+        )
+        == 2
+    )
+    assert destino.read_bytes() == b"original"
