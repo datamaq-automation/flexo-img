@@ -261,6 +261,38 @@ def test_cli_color_error_no_entrega_resultado_incompleto(
     assert not salida.exists()
 
 
+def test_cli_color_publica_resumen_y_entrega_consistentes(
+    tmp_path, monkeypatch, capsys
+):
+    entrada = tmp_path / "original.png"
+    Image.new("RGB", (2, 2), "red").save(entrada)
+    antes = entrada.read_bytes()
+    salida = tmp_path / "entrega"
+    argumentos = [
+        str(entrada),
+        "--salida",
+        str(salida),
+        "--perfil-cmyk",
+        str(CMYK),
+        "--perfil-srgb",
+        str(RGB),
+        "--asumir-srgb",
+    ]
+    assert ejecutar_cli(color, argumentos, monkeypatch) == 0
+    resumen = json.loads(capsys.readouterr().out)
+    informe = json.loads((salida / "informe_M2.json").read_text())
+    assert resumen == {
+        "salida": str(salida),
+        "estado": "demo",
+        "deltaE76_media": informe["mediciones"]["deltaE76_srgb_D65_media"],
+    }
+    assert informe["entrada_sha256"] == hashlib.sha256(antes).hexdigest()
+    assert informe["perfil_salida_validado_para_maquina"] is False
+    assert len(list(salida.glob("canal_*_gris_DEMO.png"))) == 4
+    assert len(list(salida.glob("canal_*_cobertura_DEMO.png"))) == 4
+    assert entrada.read_bytes() == antes
+
+
 def test_lotes_sucesivos_conservan_ambos_informes(tmp_path, monkeypatch):
     destino = tmp_path / "lotes"
     for nombre in ("uno", "dos"):
