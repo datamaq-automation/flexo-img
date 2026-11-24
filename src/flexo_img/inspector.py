@@ -1,5 +1,6 @@
 """API pública de inspección sin escritura de archivos."""
 
+from hashlib import sha256
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +26,7 @@ def inspeccionar_archivo(ruta_archivo: str | Path) -> dict[str, Any]:
     except (OSError, ValueError, RuntimeError) as exc:
         return {
             "archivo": ruta.name,
+            "sha256": sha256(ruta.read_bytes()).hexdigest() if ruta.is_file() else None,
             "estado": "error",
             "aptitud_produccion": "no_evaluada",
             "rasterizacion": {"estado": "no_solicitada", "paginas": []},

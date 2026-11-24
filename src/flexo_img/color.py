@@ -39,6 +39,7 @@ def convertir(
     fondo_blanco: bool = False,
 ) -> dict[str, Any]:
     _color.MAX_PIXELES_M2 = MAX_PIXELES_M2
+    _color.MAX_BYTES = MAX_BYTES
     return convertir_cmyk(
         ConversorPillow(),
         entrada,
@@ -51,6 +52,8 @@ def convertir(
 
 
 def main(argv: list[str] | None = None) -> int:
+    _color.MAX_PIXELES_M2 = MAX_PIXELES_M2
+    _color.MAX_BYTES = MAX_BYTES
     return _main(argv, ConversorPillow())
 
 

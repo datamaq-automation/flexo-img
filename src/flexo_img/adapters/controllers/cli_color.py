@@ -38,7 +38,11 @@ def main(
         parser.exit(1, f"No se generó una entrega M2 completa: {error}\n")
     print(
         json.dumps(
-            {"salida": str(args.salida), "estado": informe["estado"]},
+            {
+                "salida": str(args.salida),
+                "estado": informe["estado"],
+                "deltaE76_media": informe["mediciones"]["deltaE76_srgb_D65_media"],
+            },
             ensure_ascii=False,
         )
     )
