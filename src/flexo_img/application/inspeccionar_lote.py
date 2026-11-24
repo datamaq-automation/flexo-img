@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol
 
 from flexo_img.application.rasterizar_original import (
     RasterizadorOriginal,
@@ -14,6 +14,10 @@ from flexo_img.application.rasterizar_original import (
 from flexo_img.domain.validaciones import par_valido, validar_ppp_rasterizacion
 
 Inspector = Callable[[Path], dict[str, Any]]
+
+
+class EscritorInforme(Protocol):
+    def escribir(self, informe: dict[str, Any], destino: Path) -> Path: ...
 
 
 def inspeccionar_lote(
