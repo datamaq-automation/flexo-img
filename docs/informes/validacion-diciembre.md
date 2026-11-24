@@ -6,7 +6,7 @@ Aporte de Ignacio / TrainPulga con asistencia de Codex. La referencia de product
 
 El informe existente del commit `655dfa6` registra 115 pruebas aprobadas en Python 3.10.22 y 3.12.14, además de 382/382 sentencias. Ese es un resultado histórico documentado antes de la refactorización. En esta sesión solo estuvo disponible Python 3.12.3 (Ubuntu 24.04), por lo que no se repitió la suite en 3.10.
 
-Sobre la combinación local de las ramas de capas y compatibilidad se ejecutaron **166 pruebas**, todas aprobadas. `pytest --cov=flexo_img --cov-report=term-missing -q` midió 791 sentencias, 11 no cubiertas y **98,61 %** de cobertura. También pasaron `ruff check src tests`, `ruff format --check src tests` y `git diff --check`. No se ejecutó un workflow remoto completo en esta sesión.
+Sobre la combinación local de las ramas de capas y compatibilidad se ejecutaron **166 pruebas**, todas aprobadas. `pytest --cov=flexo_img --cov-report=term-missing -q` midió 795 sentencias, 12 no cubiertas y **98,49 %** de cobertura. También pasaron `ruff check src tests`, `ruff format --check src tests` y `git diff --check`. No se ejecutó un workflow remoto completo en esta sesión.
 
 Los casos que quedan sin cubrir aparecen en la salida de cobertura; incluyen algunas ramas excepcionales de CLI, limpieza de errores de rasterización y validaciones defensivas. No se retiró código medido ni se modificó el umbral de cobertura para elevar el porcentaje.
 
