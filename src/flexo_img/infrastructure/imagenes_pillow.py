@@ -24,7 +24,9 @@ class LectorPillow:
                 warnings.simplefilter("error", Image.DecompressionBombWarning)
                 with Image.open(io.BytesIO(contenido)) as imagen:
                     if imagen.format not in {"PNG", "JPEG"}:
-                        raise ValueError("Solo se admiten imágenes PNG o JPEG")
+                        raise ValueError(
+                            "Solo se admite contenido PNG/JPEG (PNG o JPEG)"
+                        )
                     validar_limites_archivo(len(contenido), imagen.width, imagen.height)
                     imagen.load()
                     dato_ppp = imagen.info.get("dpi")
