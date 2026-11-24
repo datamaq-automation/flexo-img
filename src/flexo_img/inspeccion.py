@@ -9,12 +9,13 @@ from typing import Any
 
 import pymupdf
 
-from flexo_img.adapters.controllers.cli_inspeccion import main
+from flexo_img.adapters.controllers.cli_inspeccion import main as _main
 from flexo_img.application.inspeccionar_lote import inspeccionar_lote
 from flexo_img.domain import validaciones as reglas
 from flexo_img.domain.unidades_svg import UNIDADES_CSS, longitud_svg_css_px
 from flexo_img.domain.validaciones import validar_limites_archivo
 from flexo_img.infrastructure import lector_pdf_pymupdf
+from flexo_img.infrastructure.escritor_informe import EscritorInformeJSON
 from flexo_img.infrastructure.imagenes_pillow import LectorPillow
 from flexo_img.infrastructure.lector_pdf_pymupdf import LectorPDFPyMuPDF
 from flexo_img.infrastructure.lector_svg import LectorSVGXML
@@ -40,6 +41,13 @@ __all__ = [
     "inspeccionar",
     "main",
 ]
+
+
+def main(argv=None) -> int:
+    """Composition root compatible for the historical CLI entry point."""
+    return _main(
+        argv, inspeccionar_archivo, RasterizadorPyMuPDF(), EscritorInformeJSON()
+    )
 
 
 def par_valido(valor: Any) -> list[float] | None:
