@@ -47,10 +47,15 @@ def inspeccionar_lote(
             raster = rasterizar_original(
                 ruta, salida, ficha["sha256"][:12], ppp, rasterizador, medidas_svg_mm
             )
-            ficha["rasterizacion"] = {
-                "estado": raster.estado,
-                "paginas": list(raster.paginas),
-            }
+            paginas = list(raster.paginas)
+            ficha["rasterizacion"] = {"estado": raster.estado, "paginas": paginas}
+            if medidas_svg_mm is not None and ruta.suffix.lower() == ".svg":
+                ficha["rasterizacion"]["tamano_salida_mm_elegido"] = list(
+                    medidas_svg_mm
+                )
+            ficha["avisos"].extend(
+                aviso for pagina in paginas for aviso in pagina.get("avisos", [])
+            )
             if medidas_svg_mm is not None and ruta.suffix.lower() == ".svg":
                 ficha["avisos"].append(
                     "Tamaño SVG de salida elegido por operador; no es tamaño del original."

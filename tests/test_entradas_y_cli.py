@@ -51,6 +51,26 @@ def test_xml_que_no_es_svg_se_rechaza(tmp_path):
     assert "El XML no es SVG" in resultado["error"]
 
 
+def test_svg_mixto_con_texto_e_imagen_danada_informa_advertencia(tmp_path):
+    entrada = tmp_path / "mixto.svg"
+    entrada.write_text(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10">'
+        '<text x="0" y="5">A</text><rect width="1" height="1"/>'
+        '<image href="data:image/png;base64,AAAA" width="10" height="10"/></svg>'
+    )
+    resultado = inspeccion.inspeccionar(entrada, tmp_path, 72)
+    assert resultado["estado"] == "ok", resultado
+    assert resultado["original"]["tipos_detectados"] == ["raster", "texto", "vector"]
+    assert resultado["original"]["tipo_contenido"] == "mixto"
+    assert any(
+        "Advertencias del rasterizador SVG:" in aviso
+        and "ignoring embedded image" in aviso
+        for aviso in resultado["avisos"]
+    )
+    assert resultado["aptitud_produccion"] == "no_evaluada"
+    assert (tmp_path / resultado["rasterizacion"]["paginas"][0]["archivo"]).exists()
+
+
 def test_archivo_fuera_de_limite_conserva_entrada(tmp_path, monkeypatch):
     entrada = tmp_path / "foto.png"
     Image.new("RGB", (2, 2)).save(entrada)
