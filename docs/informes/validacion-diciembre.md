@@ -6,13 +6,13 @@ Aporte de Ignacio / TrainPulga con asistencia de Codex. La referencia de product
 
 El informe existente del commit `655dfa6` registra 115 pruebas aprobadas en Python 3.10.22 y 3.12.14, además de 382/382 sentencias. Ese es un resultado histórico documentado antes de la refactorización. En esta sesión solo estuvo disponible Python 3.12.3 (Ubuntu 24.04), por lo que no se repitió la suite en 3.10.
 
-Sobre la combinación local de las ramas de capas y compatibilidad se ejecutaron **166 pruebas**, todas aprobadas. `pytest --cov=flexo_img --cov-report=term-missing -q` midió 791 sentencias, 11 no cubiertas y **98,61 %** de cobertura. También pasaron `ruff check src tests`, `ruff format --check src tests` y `git diff --check`. No se ejecutó un workflow remoto completo en esta sesión.
+Sobre la combinación local de las ramas de capas y compatibilidad se ejecutaron **166 pruebas**, todas aprobadas. `pytest --cov=flexo_img --cov-report=term-missing -q` midió 795 sentencias, 12 no cubiertas y **98,49 %** de cobertura. También pasaron `ruff check src tests`, `ruff format --check src tests` y `git diff --check`. No se ejecutó un workflow remoto completo en esta sesión.
 
 Los casos que quedan sin cubrir aparecen en la salida de cobertura; incluyen algunas ramas excepcionales de CLI, limpieza de errores de rasterización y validaciones defensivas. No se retiró código medido ni se modificó el umbral de cobertura para elevar el porcentaje.
 
 ## Reproducción de la demo
 
-Los comandos exactos están en el README. Se ensaya desde un clon limpio y con perfiles ICC incluidos. La demo inspecciona la foto, el SVG y el PDF; luego convierte la foto y el PNG de logo rasterizado a CMYK. Las salidas guardadas bajo `evidencia/` son la evidencia anterior recuperada y verificada; las rutas `resultados/` son nuevas al repetir.
+Los comandos exactos del README se ejecutaron desde un clon limpio de GitHub (`feature/m2-logo-evidencia`) con Python 3.12.3 y un entorno virtual nuevo. `pip install -e '.[dev]'` terminó correctamente. La inspección produjo `resultados/M1/informe-entrada.json`; las conversiones devolvieron `estado: demo`, con ΔE76 medio 1,4732 para la foto y 1,0084 para el logo. Pytest pasó 166/166, cobertura 98,61 %, Ruff check/formato y `git diff --check` pasaron. Se compararon los TIFF y PNG de ambas muestras: las 24 salidas visuales fueron idénticas en modo, tamaño y píxeles a `evidencia/M2/`. La ficha JSON puede variar por fecha/ruta al regenerarse. Las salidas guardadas bajo `evidencia/` son la evidencia recuperada y verificada; `resultados/` se generó en el clon temporal.
 
 En la medición visual del commit de evidencia M2, los valores registrados fueron:
 

@@ -24,7 +24,7 @@ Python **3.10 o superior** y Git. Las pruebas se ejecutaron en Linux con Python 
 Con acceso de lectura al repositorio, elegir una carpeta destino que no exista. Ejecutar en Ubuntu/Bash:
 
 ```bash
-git clone --branch feature/evidencia-final --single-branch https://github.com/datamaq-automation/flexo-img.git flexo-img-demo
+git clone --branch feature/m2-logo-evidencia --single-branch https://github.com/datamaq-automation/flexo-img.git flexo-img-demo
 cd flexo-img-demo
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -e '.[dev]'
