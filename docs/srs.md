@@ -19,7 +19,15 @@ flowchart LR
  F --> G[CMYK y canales C M Y K]
  G --> H[Informe y comparación DEMO]
 ```
-`src/flexo_img/inspeccion.py` lee/describe/rasteriza; `color.py` separa/convierte/exporta. Funciones comprobables, tests offline, dependencias de procesamiento sin servidor HTTP. Informes JSON/CSV para evidencia y Markdown para explicar resultados.
+La estructura sigue Arquitectura Limpia, conservando `flexo_img` y la API anterior:
+
+- `domain/`: `ImagenRaster`, medidas/unidades, validaciones y `TintasCMYK`; reglas puras, sin lectura de archivos ni bibliotecas de imagen.
+- `application/`: casos de uso (`inspeccionar_*`, `inspeccionar_lote`, `rasterizar_original`, `convertir_cmyk`) y contratos/protocolos inyectables.
+- `adapters/controllers/`: controladores para CLI y selección de casos de uso; `adapters/presenters/`: fichas e informes.
+- `infrastructure/`: lectores/escritor y adaptadores concretos Pillow, PyMuPDF, NumPy y resvg.
+- `inspeccion.py` y `color.py`: fachadas de compatibilidad que conservan los comandos y nombres públicos previos.
+
+La dependencia apunta hacia dentro: dominio no importa capas externas; aplicación depende de contratos; infraestructura implementa esos contratos. Tests de dominio corren sin archivos ni bibliotecas de imágenes, y la aplicación admite dobles. No hay servidor HTTP ni red durante el procesamiento.
 
 ## Requisitos funcionales y aceptación
 | ID | El sistema DEBE… | Cómo se comprueba |
@@ -39,7 +47,7 @@ PDF: espacios de imágenes embebidas disponibles; no se auditan todos los espaci
 ## Requisitos no funcionales
 - Calidad: Pytest con cobertura medida y mínimo de entrega 85 %, Ruff y formato (decisión de este aporte, no umbral de máquina). Pruebas sin red ni envíos; comandos del README verificados desde copia limpia.
 - Integridad/recursos: entradas sin cambios, hashes y procedencia; 25 MiB por entrada, 20 páginas y 20 millones de píxeles en inspección/render; color hasta 2 millones de píxeles. No prometen procesar originales industriales arbitrarios.
-- Portabilidad: ejecución comprobada en Ubuntu/Python 3.12. El README inicial aspira a 3.10+; esta entrega requiere 3.12 y no declara validados 3.10 ni Windows. Registrar versiones y licencias de dependencias.
+- Portabilidad: la combinación actual se probó desde un clon limpio en Ubuntu/Python 3.12.3. El proyecto declara Python 3.10 o superior. El informe previo del commit `655dfa6` registra 115 pruebas en Python 3.10.22 y 3.12.14 antes de esta reorganización; esta sesión no repitió Python 3.10 ni Windows. Registrar versiones y licencias de dependencias.
 - Rendimiento: registrar tiempos sobre muestras concretas. El ejemplo de 10 MB en menos de 5 s de #2 queda como objetivo de validación futura, no resultado universal ni SLA cumplido.
 - Trazabilidad: commits por avance, informes con pruebas y supuestos, salidas DEMO. Medición numérica de color no equivale a prueba impresa.
 
@@ -55,4 +63,4 @@ PDF: espacios de imágenes embebidas disponibles; no se auditan todos los espaci
 2. Fórmula matemática e ICC no producen necesariamente los mismos valores. Se prueban por separado; SWOP no es un perfil validado de la máquina flexográfica.
 3. Los ejemplos de #2 (aviso <200 DPI, 65–150 LPI, 10 MB/5 s) no son umbrales de producción confirmados. Diciembre informa datos; avisos/aptitud por tamaño final y proceso se completan en febrero. No confundir DPI de metadatos con resolución efectiva de impresión.
 4. Confirmar si el RIP hace el tramado, formato/resolución final, ángulos, polaridad de exposición, espesor/tipo de plancha, sustrato, tintas, ICC, ganancia de punto, límite TAC, punto mínimo/máximo y líneas positivas/negativas mínimas. Faltan muestra autorizada y prueba física.
-5. El PR referencia #1 y las sub-issues sin cierre automático, por pedido del alumno. El profesor evalúa cumplimiento; #1 sigue abierto para febrero. La épica pide PRs feature/ hacia main: esta entrega agrupa diciembre con commits identificables.
+5. El PR referencia #1 y las sub-issues sin cierre automático, por pedido del alumno. El profesor evalúa cumplimiento; #1 sigue abierto para febrero. Los PR funcionales se organizan hacia `develop`, creada desde el `main` remoto cuando no existía; `main` conserva el rol de producción. Las ramas dependientes se revisan en orden y se retargetean a `develop` al integrar su prerrequisito.
