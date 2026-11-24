@@ -7,8 +7,10 @@ from flexo_img.adapters.controllers.inspeccionar_pdf import ControladorInspeccio
 from flexo_img.adapters.controllers.inspeccionar_raster import (
     ControladorInspeccionarRaster,
 )
+from flexo_img.adapters.controllers.inspeccionar_svg import ControladorInspeccionarSVG
 from flexo_img.infrastructure.imagenes_pillow import LectorPillow
 from flexo_img.infrastructure.lector_pdf_pymupdf import LectorPDFPyMuPDF
+from flexo_img.infrastructure.lector_svg import LectorSVGXML
 
 
 def inspeccionar_archivo(ruta_archivo: str | Path) -> dict[str, Any]:
@@ -17,6 +19,8 @@ def inspeccionar_archivo(ruta_archivo: str | Path) -> dict[str, Any]:
     try:
         if ruta.suffix.lower() == ".pdf":
             return ControladorInspeccionarPDF(LectorPDFPyMuPDF()).ejecutar(ruta)
+        if ruta.suffix.lower() == ".svg":
+            return ControladorInspeccionarSVG(LectorSVGXML()).ejecutar(ruta)
         return ControladorInspeccionarRaster(LectorPillow()).ejecutar(ruta)
     except (OSError, ValueError, RuntimeError) as exc:
         return {
