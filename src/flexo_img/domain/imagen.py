@@ -14,6 +14,13 @@ class ImagenRaster:
     alto_px: int
     modo_color: str
     resolucion_ppp: tuple[float, float] | None = None
+    formato_detectado: str = "raster"
+    canales: tuple[str, ...] = ()
+    orientacion_exif: int | None = None
+    transparencia: bool = False
+    icc_sha256: str | None = None
+    tamano_bytes: int = 0
+    sha256: str = ""
 
     def __post_init__(self) -> None:
         if any(
