@@ -12,7 +12,7 @@ Los casos que quedan sin cubrir aparecen en la salida de cobertura; incluyen alg
 
 ## Reproducción de la demo
 
-Los comandos exactos están en el README. Se ensaya desde un clon limpio y con perfiles ICC incluidos. La demo inspecciona la foto, el SVG y el PDF; luego convierte la foto y el PNG de logo rasterizado a CMYK. Las salidas guardadas bajo `evidencia/` son la evidencia anterior recuperada y verificada; las rutas `resultados/` son nuevas al repetir.
+Los comandos exactos del README se ejecutaron desde un clon limpio de GitHub (`feature/m2-logo-evidencia`) con Python 3.12.3 y un entorno virtual nuevo. `pip install -e '.[dev]'` terminó correctamente. La inspección produjo `resultados/M1/informe-entrada.json`; las conversiones devolvieron `estado: demo`, con ΔE76 medio 1,4732 para la foto y 1,0084 para el logo. Pytest pasó 166/166, cobertura 98,61 %, Ruff check/formato y `git diff --check` pasaron. Se compararon los TIFF y PNG de ambas muestras: las 24 salidas visuales fueron idénticas en modo, tamaño y píxeles a `evidencia/M2/`. La ficha JSON puede variar por fecha/ruta al regenerarse. Las salidas guardadas bajo `evidencia/` son la evidencia recuperada y verificada; `resultados/` se generó en el clon temporal.
 
 En la medición visual del commit de evidencia M2, los valores registrados fueron:
 
