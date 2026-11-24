@@ -1,0 +1,358 @@
+{
+  "fase": "M2",
+  "estado": "demo",
+  "aptitud_produccion": "no_evaluada",
+  "archivo_entrada": "foto-hopper.jpg",
+  "entrada_sha256": "ffe89a0ab0e94114e10777e7313d7fa83d634e34ebc2ea7479085cffa504c920",
+  "dimensiones_px": [
+    128,
+    128
+  ],
+  "ppp_de_entrada": [
+    96.0,
+    96.0
+  ],
+  "perfil_entrada_origen": "sRGB_asumido_expresamente_no_verificado",
+  "perfil_entrada": {
+    "descripcion": "Artifex Software sRGB ICC Profile",
+    "sha256": "eddaf344b5edea13269e0d20055f335610e5e0b6e33e6e536f2701bc18c5f7d5",
+    "espacio": "RGB",
+    "copyright": "Copyright Artifex Software 2011"
+  },
+  "perfil_srgb_de_visualizacion": {
+    "descripcion": "Artifex Software sRGB ICC Profile",
+    "sha256": "eddaf344b5edea13269e0d20055f335610e5e0b6e33e6e536f2701bc18c5f7d5",
+    "espacio": "RGB",
+    "copyright": "Copyright Artifex Software 2011"
+  },
+  "perfil_salida_cmyk": {
+    "descripcion": "Artifex CMYK SWOP Profile",
+    "sha256": "8472fa1493a024b800b67dee9424835ec0c41ab79490200ae8ec4a689fd1b9a9",
+    "espacio": "CMYK",
+    "copyright": "Copyright Artifex Software 2011"
+  },
+  "perfil_salida_validado_para_maquina": false,
+  "intento_renderizado": "colorimetrico_relativo",
+  "compensacion_punto_negro": true,
+  "transparencia_aplanada_sobre_blanco": false,
+  "orientacion_exif_entrada": null,
+  "versiones": {
+    "Pillow": "13.0.0",
+    "LittleCMS": "2.19"
+  },
+  "mediciones": {
+    "pixeles": 16384,
+    "deltaE76_srgb_D65_media": 1.4732,
+    "deltaE76_srgb_D65_p95": 3.1914,
+    "deltaE76_srgb_D65_maximo": 11.4533,
+    "xy_deltaE76_maximo": [
+      29,
+      83
+    ],
+    "pixeles_rgb_distintos_pct": 99.6826,
+    "tinta_nominal_por_canal": {
+      "C": {
+        "media_pct": 57.2926,
+        "maximo_pct": 100.0
+      },
+      "M": {
+        "media_pct": 61.2519,
+        "maximo_pct": 100.0
+      },
+      "Y": {
+        "media_pct": 43.9706,
+        "maximo_pct": 100.0
+      },
+      "K": {
+        "media_pct": 35.7182,
+        "maximo_pct": 87.8431
+      }
+    },
+    "tinta_total_nominal_media_pct": 198.2333,
+    "tinta_total_nominal_maxima_pct": 296.0784,
+    "muestras_color": [
+      {
+        "xy": [
+          82,
+          22
+        ],
+        "rgb_original_srgb": [
+          13,
+          13,
+          15
+        ],
+        "rgb_preview_srgb": [
+          18,
+          15,
+          15
+        ],
+        "cmyk_8bit": [
+          183,
+          174,
+          168,
+          213
+        ],
+        "tinta_pct": [
+          71.7647,
+          68.2353,
+          65.8824,
+          83.5294
+        ],
+        "deltaE76_srgb_D65": 1.7557
+      },
+      {
+        "xy": [
+          39,
+          26
+        ],
+        "rgb_original_srgb": [
+          14,
+          14,
+          16
+        ],
+        "rgb_preview_srgb": [
+          18,
+          16,
+          16
+        ],
+        "cmyk_8bit": [
+          183,
+          174,
+          168,
+          212
+        ],
+        "tinta_pct": [
+          71.7647,
+          68.2353,
+          65.8824,
+          83.1373
+        ],
+        "deltaE76_srgb_D65": 1.5472
+      },
+      {
+        "xy": [
+          83,
+          24
+        ],
+        "rgb_original_srgb": [
+          14,
+          13,
+          18
+        ],
+        "rgb_preview_srgb": [
+          19,
+          16,
+          18
+        ],
+        "cmyk_8bit": [
+          186,
+          177,
+          163,
+          210
+        ],
+        "tinta_pct": [
+          72.9412,
+          69.4118,
+          63.9216,
+          82.3529
+        ],
+        "deltaE76_srgb_D65": 2.1056
+      },
+      {
+        "xy": [
+          97,
+          56
+        ],
+        "rgb_original_srgb": [
+          109,
+          144,
+          202
+        ],
+        "rgb_preview_srgb": [
+          111,
+          144,
+          200
+        ],
+        "cmyk_8bit": [
+          149,
+          96,
+          3,
+          0
+        ],
+        "tinta_pct": [
+          58.4314,
+          37.6471,
+          1.1765,
+          0.0
+        ],
+        "deltaE76_srgb_D65": 1.1861
+      },
+      {
+        "xy": [
+          101,
+          56
+        ],
+        "rgb_original_srgb": [
+          108,
+          143,
+          201
+        ],
+        "rgb_preview_srgb": [
+          110,
+          142,
+          199
+        ],
+        "cmyk_8bit": [
+          150,
+          98,
+          3,
+          0
+        ],
+        "tinta_pct": [
+          58.8235,
+          38.4314,
+          1.1765,
+          0.0
+        ],
+        "deltaE76_srgb_D65": 0.9351
+      },
+      {
+        "xy": [
+          29,
+          83
+        ],
+        "rgb_original_srgb": [
+          57,
+          0,
+          0
+        ],
+        "rgb_preview_srgb": [
+          52,
+          18,
+          16
+        ],
+        "cmyk_8bit": [
+          130,
+          206,
+          186,
+          193
+        ],
+        "tinta_pct": [
+          50.9804,
+          80.7843,
+          72.9412,
+          75.6863
+        ],
+        "deltaE76_srgb_D65": 11.4533
+      },
+      {
+        "xy": [
+          32,
+          32
+        ],
+        "rgb_original_srgb": [
+          163,
+          114,
+          74
+        ],
+        "rgb_preview_srgb": [
+          165,
+          114,
+          73
+        ],
+        "cmyk_8bit": [
+          77,
+          141,
+          197,
+          32
+        ],
+        "tinta_pct": [
+          30.1961,
+          55.2941,
+          77.2549,
+          12.549
+        ],
+        "deltaE76_srgb_D65": 1.1978
+      },
+      {
+        "xy": [
+          64,
+          64
+        ],
+        "rgb_original_srgb": [
+          173,
+          70,
+          55
+        ],
+        "rgb_preview_srgb": [
+          174,
+          69,
+          54
+        ],
+        "cmyk_8bit": [
+          58,
+          214,
+          215,
+          34
+        ],
+        "tinta_pct": [
+          22.7451,
+          83.9216,
+          84.3137,
+          13.3333
+        ],
+        "deltaE76_srgb_D65": 0.9873
+      },
+      {
+        "xy": [
+          96,
+          96
+        ],
+        "rgb_original_srgb": [
+          21,
+          19,
+          32
+        ],
+        "rgb_preview_srgb": [
+          24,
+          20,
+          31
+        ],
+        "cmyk_8bit": [
+          198,
+          192,
+          147,
+          193
+        ],
+        "tinta_pct": [
+          77.6471,
+          75.2941,
+          57.6471,
+          75.6863
+        ],
+        "deltaE76_srgb_D65": 1.8174
+      }
+    ],
+    "metodo": "Todos los píxeles; RGB normalizado y reconversión CMYK a sRGB. DeltaE76 calculado D65, no colorimetría de papel. P95 por índice floor(0.95*(N-1)).",
+    "interpretacion_cobertura": "Tono continuo nominal, no porcentaje de puntos tramados, opacidad ni consumo físico. Suma CMYK puede superar 100%."
+  },
+  "limites": [
+    "Previsualización sRGB de la reconversión: no simula blanco del papel ni pantalla calibrada.",
+    "No mide el color físico, no genera trama, no evalúa aptitud ni optimiza cobertura."
+  ],
+  "salidas": {
+    "preview_cmyk_srgb_DEMO.png": "97e8aca067d0aa3d19002b308fa7741ffa41deaa7612dfb9017f4485b3fdbaee",
+    "canal_M_cobertura_DEMO.png": "0a6444fa7ffea48036c08298fcd75b0b6dc7b062a35b18bc0ec892215a489f9a",
+    "canal_Y_gris_DEMO.png": "18d4e0b55cadf04d508d949d9751300a280d02dc5abb284c74d03846ea88891c",
+    "canal_C_gris_DEMO.png": "a44a5888db8267ca6678a71389d77811279de46182d6341913e2039b76b4e8f8",
+    "canal_M_gris_DEMO.png": "61f0cde6a5fb9a08908f3fef397ccab84f03c89cc7ac271ff4853819f411564c",
+    "canal_C_cobertura_DEMO.png": "27224019c6029f584d56c25ca7fa9b063cee5a97f675c0f5f450001515345e2a",
+    "comparacion_DEMO.png": "44c19da00e98e42202eeb9905cdd9d304e61f330ad21cedb3a998860f99da759",
+    "canal_Y_cobertura_DEMO.png": "8b4bafcb4b5be6f0f1b39ce4e52f59839e8b038d3c40b6bd40baaf8bee269dbf",
+    "canal_K_gris_DEMO.png": "cdab9d5c5fda84a3978af8c2cfded2cdc8af36bb9db52e34ee9b412308b41ef0",
+    "canal_K_cobertura_DEMO.png": "85b972d625cf070e305e8c09f20431d8c36e4a871dc960148599e01ea238788a",
+    "original_srgb.png": "ff8d7e70cc4c1571c7abdcb545f75f99eb5c92f6e956b8a2ef73d0814ae75899",
+    "conversion_cmyk_DEMO.tif": "e0b50e5f1aad2983f8e3bba4866e0514be9ba5298431c435ed4a1614ea7b06b9",
+    "muestras_color.csv": "1f27f54effa523abbc8010a308385eb1a5a7096c8891420bd7186993f780287e"
+  }
+}
