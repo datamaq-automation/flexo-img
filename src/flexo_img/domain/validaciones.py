@@ -1,7 +1,10 @@
 """Límites de seguridad del prototipo; no son umbrales de producción."""
 
+import math
+
 MAX_BYTES = 25 * 1024 * 1024
 MAX_PIXELES = 20_000_000
+MAX_PAGINAS = 20
 
 
 def validar_ppp_rasterizacion(ppp: int) -> None:
@@ -9,6 +12,14 @@ def validar_ppp_rasterizacion(ppp: int) -> None:
         raise ValueError(
             "La rasterización requiere PPP enteros entre 1 y 1200 (límite local)"
         )
+
+
+def par_valido(valor):
+    try:
+        par = [float(valor[0]), float(valor[1])]
+        return par if all(math.isfinite(x) and x > 0 for x in par) else None
+    except (TypeError, ValueError, IndexError, OverflowError):
+        return None
 
 
 def validar_limites_archivo(tamano_bytes: int, ancho_px: int, alto_px: int) -> None:
