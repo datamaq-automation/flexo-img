@@ -7,14 +7,21 @@ from collections.abc import Sequence
 from pathlib import Path
 from tempfile import mkdtemp
 
-from flexo_img.application.inspeccionar_lote import inspeccionar_lote
+from flexo_img.application.inspeccionar_lote import (
+    EscritorInforme,
+    Inspector,
+    inspeccionar_lote,
+)
+from flexo_img.application.rasterizar_original import RasterizadorOriginal
 from flexo_img.domain.validaciones import par_valido
-from flexo_img.infrastructure.escritor_informe import EscritorInformeJSON
-from flexo_img.infrastructure.pymupdf_rasterizador import RasterizadorPyMuPDF
-from flexo_img.inspector import inspeccionar_archivo
 
 
-def main(argv: Sequence[str] | None = None) -> int:
+def main(
+    argv: Sequence[str] | None = None,
+    inspector: Inspector | None = None,
+    rasterizador: RasterizadorOriginal | None = None,
+    escritor: EscritorInforme | None = None,
+) -> int:
     parser = argparse.ArgumentParser(
         description="Inspección local de entrada; no convierte a CMYK ni certifica una plancha."
     )
@@ -31,6 +38,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="Tamaño de salida elegido, no dato del SVG original",
     )
     args = parser.parse_args(argv)
+    if inspector is None or rasterizador is None or escritor is None:
+        parser.error("Se requieren inspector, rasterizador y escritor")
     if args.dpi is not None and not 1 <= args.dpi <= 1200:
         parser.error("--dpi debe ser entero entre 1 y 1200")
     if args.svg_mm is not None and (
@@ -52,13 +61,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     informe = inspeccionar_lote(
         args.archivos,
         args.salida,
-        inspeccionar_archivo,
-        RasterizadorPyMuPDF(),
+        inspector,
+        rasterizador,
         args.dpi,
         medidas,
     )
-    destino = EscritorInformeJSON().escribir(
-        informe, args.salida / "informe-entrada.json"
-    )
+    destino = escritor.escribir(informe, args.salida / "informe-entrada.json")
     print(destino)
     return int(any(ficha["estado"] != "ok" for ficha in informe["archivos"]))
