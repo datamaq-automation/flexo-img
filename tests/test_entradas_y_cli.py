@@ -9,9 +9,9 @@ from types import ModuleType
 
 import pymupdf
 import pytest
-from PIL import Image
+from PIL import Image, ImageCms
 
-from flexo_img import inspeccion
+from flexo_img import color, inspeccion
 
 BASE = Path(__file__).resolve().parent.parent
 RGB = BASE / "perfiles-icc/default_rgb.icc"
@@ -201,6 +201,64 @@ def test_cli_inspeccion_genera_informe_y_codigo_coherentes(
     )
     assert informe["generado_utc"].endswith("+00:00")
     assert str(salida / "informe-entrada.json") in capsys.readouterr().out
+
+
+def test_color_limite_de_bytes_no_genera_salida(tmp_path, monkeypatch):
+    entrada = tmp_path / "original.png"
+    Image.new("RGB", (2, 2)).save(entrada)
+    antes = entrada.read_bytes()
+    monkeypatch.setattr(color, "MAX_BYTES", len(antes) - 1)
+    salida = tmp_path / "sin-crear"
+    with pytest.raises(ValueError, match="límite de recursos local"):
+        color.convertir(entrada, salida, CMYK, RGB, True)
+    assert not salida.exists()
+    assert entrada.read_bytes() == antes
+
+
+def test_color_referencia_rgb_sin_identidad_srgb_se_rechaza(tmp_path):
+    # Solo cambia el nombre de un ICC RGB local; no simula el transformador.
+    datos = (
+        RGB.read_bytes()
+        .replace(b"sRGB", b"demo")
+        .replace("sRGB".encode("utf-16-be"), "demo".encode("utf-16-be"))
+    )
+    perfil = tmp_path / "rgb-sin-nombre-srgb.icc"
+    perfil.write_bytes(datos)
+    perfil_abierto = ImageCms.ImageCmsProfile(str(perfil))
+    assert "srgb" not in ImageCms.getProfileDescription(perfil_abierto).lower()
+    entrada = tmp_path / "original.png"
+    Image.new("RGB", (2, 2)).save(entrada)
+    salida = tmp_path / "sin-crear"
+    with pytest.raises(ValueError, match="identificarse como sRGB"):
+        color.convertir(entrada, salida, CMYK, perfil, True)
+    assert not salida.exists()
+
+
+@pytest.mark.parametrize("caso", ["sin-icc", "ausente", "perfil-corrupto"])
+def test_cli_color_error_no_entrega_resultado_incompleto(
+    tmp_path, monkeypatch, capsys, caso
+):
+    entrada = tmp_path / "original.png"
+    Image.new("RGB", (2, 2)).save(entrada)
+    perfil_rgb = RGB
+    if caso == "ausente":
+        entrada = tmp_path / "ausente.png"
+    if caso == "perfil-corrupto":
+        perfil_rgb = tmp_path / "corrupto.icc"
+        perfil_rgb.write_bytes(b"no-es-un-perfil")
+    salida = tmp_path / "sin-crear"
+    argumentos = [
+        str(entrada),
+        "--salida",
+        str(salida),
+        "--perfil-cmyk",
+        str(CMYK),
+        "--perfil-srgb",
+        str(perfil_rgb),
+    ]
+    assert ejecutar_cli(color, argumentos, monkeypatch) == 1
+    assert "No se generó una entrega M2 completa:" in capsys.readouterr().err
+    assert not salida.exists()
 
 
 def test_lotes_sucesivos_conservan_ambos_informes(tmp_path, monkeypatch):
