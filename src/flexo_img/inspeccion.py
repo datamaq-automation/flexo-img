@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -13,6 +14,7 @@ from flexo_img.application.inspeccionar_lote import inspeccionar_lote
 from flexo_img.domain import validaciones as reglas
 from flexo_img.domain.unidades_svg import UNIDADES_CSS, longitud_svg_css_px
 from flexo_img.domain.validaciones import validar_limites_archivo
+from flexo_img.infrastructure import lector_pdf_pymupdf
 from flexo_img.infrastructure.imagenes_pillow import LectorPillow
 from flexo_img.infrastructure.lector_pdf_pymupdf import LectorPDFPyMuPDF
 from flexo_img.infrastructure.lector_svg import LectorSVGXML
@@ -48,10 +50,32 @@ def par_valido(valor: Any) -> list[float] | None:
         return None
 
 
+@contextmanager
+def _limites_publicos():
+    anteriores = (
+        reglas.MAX_BYTES,
+        reglas.MAX_PIXELES,
+        reglas.MAX_PAGINAS,
+        lector_pdf_pymupdf.MAX_PAGINAS,
+    )
+    reglas.MAX_BYTES, reglas.MAX_PIXELES, reglas.MAX_PAGINAS = (
+        MAX_BYTES,
+        MAX_PIXELES,
+        MAX_PAGINAS,
+    )
+    lector_pdf_pymupdf.MAX_PAGINAS = MAX_PAGINAS
+    try:
+        yield
+    finally:
+        reglas.MAX_BYTES, reglas.MAX_PIXELES, reglas.MAX_PAGINAS = anteriores[:3]
+        lector_pdf_pymupdf.MAX_PAGINAS = anteriores[3]
+
+
 def pixeles_permitidos(ancho: float, alto: float) -> None:
     if not all(math.isfinite(x) and x > 0 for x in (ancho, alto)):
         raise ValueError("Dimensiones no positivas o no finitas")
-    validar_limites_archivo(1, math.ceil(ancho), math.ceil(alto))
+    with _limites_publicos():
+        validar_limites_archivo(1, math.ceil(ancho), math.ceil(alto))
 
 
 def raster(path: Path) -> tuple[dict[str, Any], list[str]]:
@@ -110,14 +134,15 @@ def renderizar(
 def inspeccionar(
     path: Path, salida: Path, dpi: int | None = None, svg_mm: list[float] | None = None
 ) -> dict[str, Any]:
-    informe = inspeccionar_lote(
-        [path],
-        salida,
-        inspeccionar_archivo,
-        RasterizadorPyMuPDF(),
-        dpi,
-        tuple(svg_mm) if svg_mm is not None else None,
-    )
+    with _limites_publicos():
+        informe = inspeccionar_lote(
+            [path],
+            salida,
+            inspeccionar_archivo,
+            RasterizadorPyMuPDF(),
+            dpi,
+            tuple(svg_mm) if svg_mm is not None else None,
+        )
     return informe["archivos"][0]
 
 

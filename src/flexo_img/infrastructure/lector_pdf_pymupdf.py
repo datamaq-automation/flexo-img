@@ -11,6 +11,8 @@ import pymupdf
 from flexo_img.application.inspeccionar_pdf import ResultadoPDF
 from flexo_img.domain.validaciones import validar_limites_archivo
 
+MAX_PAGINAS = 20
+
 
 class LectorPDFPyMuPDF:
     def leer(self, ruta: Path) -> ResultadoPDF:
@@ -19,9 +21,13 @@ class LectorPDFPyMuPDF:
         try:
             with pymupdf.open(stream=contenido, filetype="pdf") as documento:
                 if not documento.is_pdf or documento.needs_pass:
-                    raise ValueError("PDF cifrado o inválido")
-                if not 1 <= len(documento) <= 20:
-                    raise ValueError("PDF fuera del límite local de 20 páginas")
+                    raise ValueError(
+                        "PDF cifrado, inválido o fuera del límite local de 20 páginas"
+                    )
+                if not 1 <= len(documento) <= MAX_PAGINAS:
+                    raise ValueError(
+                        "PDF cifrado, inválido o fuera del límite local de 20 páginas"
+                    )
                 paginas = [self._pagina(pagina) for pagina in documento]
         except (pymupdf.FileDataError, RuntimeError) as exc:
             raise ValueError("PDF inválido o no legible") from exc

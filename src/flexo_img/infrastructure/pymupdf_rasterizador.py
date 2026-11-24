@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import base64
+import re
 import xml.etree.ElementTree as StdET
 from pathlib import Path
 
@@ -54,9 +56,23 @@ class RasterizadorPyMuPDF:
                 nodo.tag.split("}")[-1] in {"linearGradient", "radialGradient"}
                 for nodo in raiz.iter()
             )
-            return self._renderizar(
+            paginas = self._renderizar(
                 documento, salida, prefijo, ppp, xml if tiene_gradiente else None
             )
+            for codificado in re.findall(
+                r"data:image/(?:png|jpeg);base64,([A-Za-z0-9+/=]+)", xml, re.IGNORECASE
+            ):
+                try:
+                    recurso = base64.b64decode(codificado, validate=True)
+                except ValueError:
+                    recurso = b""
+                if paginas and not recurso.startswith(
+                    (b"\x89PNG\r\n\x1a\n", b"\xff\xd8")
+                ):
+                    paginas[0].setdefault("avisos", []).append(
+                        "Advertencias del rasterizador SVG: ignoring embedded image por datos inválidos."
+                    )
+            return paginas
 
     def _renderizar(
         self,
